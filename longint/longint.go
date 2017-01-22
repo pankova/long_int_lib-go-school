@@ -284,7 +284,7 @@ func (num *LongInt) String() string {
 	}
 
 	// Заменяем "0" на "-", если число отрицательное.
-	if result[0] == 48 {
+	if result[0] == 48 && len(result) > 1 {
 		return "-" + result[1:]
 	}
 	return result
