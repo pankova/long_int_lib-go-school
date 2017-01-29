@@ -69,16 +69,16 @@ func Sum(val1, val2 *LongInt) *LongInt {
 		k = i + 1
 		for (tmp >= 10) {
 			tmp = num1.number[k-1] + num2.number[k-1 - (maxSize - minSize)]
-			result.number[k] = result.number[k] + (tmp-10)
+			result.number[k] += tmp-10
 			k--
 			tmp = result.number[k] + 1
 		}
-		result.number[k] = result.number[k] + tmp - result.number[k]
+		result.number[k] = tmp
 	}
 
 	// Оставшиеся разряды длинного первого числа суммируем к результату.
 	for i = 0; i < (maxSize - minSize); i++ {
-		result.number[i+1] = result.number[i+1] + num1.number[i]
+		result.number[i+1] += num1.number[i]
 	}
 
 	// Если они есть, подчищаем лишние нули в начале результата, оставляя при этом,
@@ -146,7 +146,7 @@ func Sub(val1, val2 *LongInt) *LongInt {
 				k--
 			}
 			// Нашли, у кого занять.
-			num1.number[k] = num1.number[k] - 1
+			num1.number[k] -= 1
 		} else {
 			result.number[i] = tmp
 		}
@@ -181,7 +181,8 @@ func copyLongInt(num *LongInt) *LongInt {
 	return result
 }
 
-// more - функция, возвращающая наибольшее из переданных LongInt.
+// more - функция, принимающая два числа LongInt и возвращающая true, если первое число больше второго,
+// иначе - false.
 func more(val1, val2 *LongInt) bool {
 	num1len := len(val1.number)
 	num2len := len(val2.number)
@@ -280,7 +281,7 @@ func addNZero(val LongInt, count int) *LongInt{
 func (num *LongInt) String() string {
 	result := ""
 	for i := 0; i < len(num.number); i++ {
-		result = result + strconv.Itoa(num.number[i])
+		result += strconv.Itoa(num.number[i])
 	}
 
 	// Заменяем "0" на "-", если число отрицательное.
